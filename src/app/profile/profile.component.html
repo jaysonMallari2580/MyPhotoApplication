@@ -1,0 +1,24 @@
+<!--Interpolation-->
+<h1>
+  {{title}}
+</h1>
+
+
+<!--Property Binding-->
+<img [src]="imgUrl" style="width:300px;" /><br />
+
+<br />
+<!--Event Binding-->
+<button (click)="incrementCount()">Like</button>
+<span> : {{likeCount}}</span>
+
+
+<!--Two Way Data Binding-->
+<div>
+  <input type="text" [(ngModel)]="name" />
+  <p>Hello, {{name}}</p>
+</div>
+
+<ul>
+ <li *ngFor="let item of list">{{item}}</li>
+</ul>

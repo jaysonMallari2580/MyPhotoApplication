@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "MyPhotoApplication"
+    }
+  },
+  "defaultProject": "MyPhotoApplication",
+  "cli": {
+    "analytics": false
+  }
 }
