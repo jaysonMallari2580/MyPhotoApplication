@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { User } from '../User';
+
+
 
 @Component({
   selector: 'app-profile',
@@ -7,19 +13,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  title = "User Profile";
-  imgUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-  likeCount = 0;
-  name = "Jayson";
-  list = ["item1", "item2", "item3"];
+  user: User;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
+
 
   ngOnInit(): void {
+    this.userService.getCurrentUserProfile().subscribe(
+      response => {
+        this.user = <User>response;
+        console.log("got the user profile", this.user);
+      }
+    );
   }
 
-  incrementCount() {
-    this.likeCount++;
-  }
+  
+
+ 
+ 
 
 }

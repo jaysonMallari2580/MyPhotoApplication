@@ -1,7 +1,7 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { Album } from '../Album';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlbumDetailsComponent } from '../album-details/album-details.component';
 
 
@@ -12,27 +12,20 @@ import { AlbumDetailsComponent } from '../album-details/album-details.component'
 })
 export class UploadPictureComponent implements OnInit {
 
- 
 
-  constructor(private albumService: AlbumService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
-  albums: Album[];
-  num = 1;
+  albumId: string;
 
   ngOnInit(): void {
-
-    this.albumService.getById().subscribe(
-      response => {
-        this.albums = <Album[]>response;
-        console.log("get all album respone", this.albums);
-      }
-    );
-    
+    this.route.paramMap.subscribe(params => {
+      this.albumId = params.get('albumId');
+      console.log('Upload get album Id:', this.albumId);
+    });
   }
 
-  goback() {
-
-    this.router.navigate(['album', this.albums[this.num].id]);
+  goBack() {
+    this.router.navigate(['/album', this.albumId]);
   }
  
 

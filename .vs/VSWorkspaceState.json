@@ -3,8 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\album-details",
     "\\src\\app\\login"
   ],
-  "SelectedNode": "\\src\\app\\app.component.ts",
+  "SelectedNode": "\\src\\app\\album-details\\album-details.component.ts",
   "PreviewInSolutionExplorer": false
 }

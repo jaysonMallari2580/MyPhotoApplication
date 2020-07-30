@@ -1,32 +1,36 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand">My Photo Application</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">My Photo Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto" *ngIf="userService.user |async">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/albums/recent']">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/profile/me']">Profile</a>
-      </li>
 
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/albums/me']">Albums</a>
-      </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" *ngIf="userService.user |async">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/albums/recent']">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/profile/me']">Profile</a>
+        </li>
 
-    </ul>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/albums/me']">Albums</a>
+        </li>
+
+      </ul>
+
+    </div>
+  </nav>
+
+
+  <div class="float-right" style="padding-right: 30px; padding-top:20px;">
+    <a class="btn btn-danger" *ngIf="userService.user | async" (click)="signOut()">Logout</a>
 
   </div>
-</nav>
+  <br/><br />
 
-
-<div class="float-right" style="padding-right: 30px; padding-top:20px;" >
-  <a class="btn btn-primary" *ngIf="userService.user | async" (click)="signOut()" >Sign Out</a>
-</div>
-<br>
 
 <router-outlet></router-outlet>

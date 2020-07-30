@@ -5,6 +5,9 @@ import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs';
 import { Router, CanActivate } from '@angular/router';
+import { User } from './User';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -22,37 +25,54 @@ export class UserService implements CanActivate{
     return false;
   }
 
-  constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
+  constructor(private firebaseAuth: AngularFireAuth, private router: Router, private http: HttpClient) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe(
       userInfo => {
         console.log("userInfo: ", userInfo);
-        this.storeIdToken(userInfo.getIdToken());
+        this.savedIdToken(userInfo);
       }
     );
   }
 
-  storeIdToken(idToken: Promise<string>) {
-    idToken.then(
+
+  savedIdToken(firebaseUser: firebase.User) {
+    firebaseUser.getIdToken().then(
       idTokenValue => {
         localStorage.setItem('userIdToken', idTokenValue);
-        console.log("id token value: ", idTokenValue);
+        console.log("id token value: ", localStorage.getItem('userIdToken'));
       }
     )
   }
 
-  signup(email: string, password: string) {
+  signup(email: string, password: string, name: string) {
     this.firebaseAuth
       .auth
       .createUserWithEmailAndPassword(email, password)
       .then(value => {
-        this.router.navigate(['albums/recent']);
-        console.log('Success!', value);
+        this.registerUser(email, name);
+        console.log("Name in service: ", name);
+        this.savedIdToken(value.user);
       })
       .catch(err => {
         console.log('Something went wrong:', err.message);
       });
+  }
+
+  registerUser(email: string, name: string) {
+    var user: User = {
+      emailAddress: email,
+      id: "",
+      name: name,
+      profilePhotoUrl: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+    };
+
+    this.http.post(environment.API_BASE_URL + "users/register", user)
+      .subscribe(response => {
+        this.router.navigate(['albums/recent']);
+      });
+    console.log("Name in registration ", name);
   }
 
   login(email: string, password: string) {
@@ -61,6 +81,7 @@ export class UserService implements CanActivate{
       .signInWithEmailAndPassword(email, password)
       .then(value => {
         console.log('Nice, it worked!');
+        this.savedIdToken(value.user);
         this.router.navigate(['albums/recent']);
       })
       .catch(err => {
@@ -75,5 +96,15 @@ export class UserService implements CanActivate{
       .signOut();
     localStorage.clear();
   }
+
+  getCurrentUserProfile() {
+    var headers = this.getHeaders();
+    return this.http.get(environment.API_BASE_URL + "users/me", { headers });
+  }
+
+    getHeaders() {
+      var headers = { 'idToken': localStorage.getItem('userIdToken') };
+      return headers;
+    }
 
 }

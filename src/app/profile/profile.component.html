@@ -1,24 +1,14 @@
-<!--Interpolation-->
-<h1>
-  {{title}}
-</h1>
 
+  <div class="card text-center" *ngIf="user" >
+    <div class="card-header" >
+      {{user.name}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{user.emailAddress}}</h5>
+      <img [src]="user.profilePhotoUrl" width="200" class="rounded-circle" />
+    </div>
+    <div class="card-footer text-muted">
+      --
+    </div>
+  </div>
 
-<!--Property Binding-->
-<img [src]="imgUrl" style="width:300px;" /><br />
-
-<br />
-<!--Event Binding-->
-<button (click)="incrementCount()">Like</button>
-<span> : {{likeCount}}</span>
-
-
-<!--Two Way Data Binding-->
-<div>
-  <input type="text" [(ngModel)]="name" />
-  <p>Hello, {{name}}</p>
-</div>
-
-<ul>
- <li *ngFor="let item of list">{{item}}</li>
-</ul>

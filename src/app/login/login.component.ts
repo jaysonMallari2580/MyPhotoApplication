@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
   signInFormVisible = true;
   email: string;
   password: string;
+  name: string;
 
 
   constructor(public userService: UserService) {
@@ -37,9 +38,10 @@ export class LoginComponent implements OnInit {
 
 
   signUp() {
-    console.log("user signUp");
-    this.userService.signup(this.email, this.password);
+    console.log("Name in component: ", this.name);
+    this.userService.signup(this.email, this.password, this.name);
     this.email = "";
     this.password = "";
+    this.name = ""; 
   }
 }

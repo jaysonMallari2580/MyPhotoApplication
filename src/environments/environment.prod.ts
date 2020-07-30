@@ -8,5 +8,6 @@ export const environment = {
     storageBucket: "myphotoapptest.appspot.com",
     messagingSenderId: "40497085049",
     appId: "1:40497085049:web:89f56ee92229c0a48132a8"
-  }
+  },
+  API_BASE_URL: "http://3.20.59.181:8000/api/"
 };

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class AlbumService {
 
   getAllAlbums() {
     var headers = this.getHeaders();
-    return this.http.get("http://3.20.59.181:8000/api/albums/all", { headers });
+    console.log("Calling all Albums with headers: ", headers);
+    return this.http.get(environment.API_BASE_URL + "albums/all", { headers });
+    
   }
 
   getHeaders() {
@@ -18,10 +21,23 @@ export class AlbumService {
     return headers;
   }
 
-  getById() {
+  getPhotos(albumId: string) {
     var headers = this.getHeaders();
-   return this.http.get("http://3.20.59.181:8000/api/albums/all", { headers });
+    return this.http.get(environment.API_BASE_URL + "albums/" + albumId + "/photos", { headers });
   }
+
+  getAllPhotos() {
+    var headers = this.getHeaders();
+    return this.http.get(environment.API_BASE_URL + "photos", { headers });
+  }
+
+  getAlbums() {
+    var headers = this.getHeaders();
+    console.log("Calling specific albums with headers: ", headers);
+    return this.http.get(environment.API_BASE_URL + "albums", { headers });
+  }
+
+
 }
 
 
