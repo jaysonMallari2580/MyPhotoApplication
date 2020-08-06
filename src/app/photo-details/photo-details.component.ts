@@ -19,6 +19,26 @@ export class PhotoDetailsComponent implements OnInit {
   allComments: Comment[];
   album: Album;
 
+  newComment: string;
+  inOrder = false;
+
+  changeOrder() {
+    if (this.inOrder) {
+      this.loadAllComments(this.photoId);
+      return this.inOrder = false;
+    } else {
+      this.photoService.getComments(this.photoId).subscribe(
+        response => {
+          this.allComments = <Comment[]>response;
+          console.log("Reverse: ", response);
+        }
+      );
+
+      return this.inOrder = true;
+    }
+    
+  }
+
   ngOnInit(): void {
   
     this.route.paramMap.subscribe(
@@ -30,6 +50,18 @@ export class PhotoDetailsComponent implements OnInit {
       }
     );
 
+    
+  }
+
+  saveComment() {
+    this.photoService.saveComment(this.photoId, this.newComment)
+      .subscribe(
+        response => {
+          console.log("Comment added!", response);
+          this.loadAllComments(this.photoId);
+          this.newComment = "";
+        }
+      );
     
   }
 

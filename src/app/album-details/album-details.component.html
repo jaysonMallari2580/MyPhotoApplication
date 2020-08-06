@@ -1,6 +1,6 @@
 
   <div *ngIf="album">
-    <div [style.background]="'url(' + album.coverPhotoUrl + ')'">
+    <div [style.background]="'url(' + album.coverPhotoUrl + ')'" *ngIf="user">
       <div [style.background]="'url(' + user.profilePhotoUrl + ')'">
 
 

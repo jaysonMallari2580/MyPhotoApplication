@@ -3,6 +3,8 @@ import { AlbumService } from '../album.service';
 import { Album } from '../Album';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlbumDetailsComponent } from '../album-details/album-details.component';
+import { PhotoService } from '../photo.service';
+import { FileService } from '../file.service';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { AlbumDetailsComponent } from '../album-details/album-details.component'
 export class UploadPictureComponent implements OnInit {
 
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private photoService: PhotoService, private fileService: FileService) { }
 
   albumId: string;
 
@@ -26,6 +28,20 @@ export class UploadPictureComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/album', this.albumId]);
+  }
+
+  savePhoto(file: File) {
+    console.log("File: ", file);
+
+    this.fileService.uploadFile(file).subscribe(
+      fileResponse => {
+        var fileId = fileResponse["fileId"];
+        console.log("File data from fileService: ", fileResponse["fileId"]);
+        this.photoService.savePhoto(this.albumId, fileId);
+      }
+    );
+
+    
   }
  
 

@@ -8,6 +8,7 @@ import { Router, CanActivate } from '@angular/router';
 import { User } from './User';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment.prod';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,10 @@ export class UserService implements CanActivate{
     return false;
   }
 
-  constructor(private firebaseAuth: AngularFireAuth, private router: Router, private http: HttpClient) {
+  constructor(private firebaseAuth: AngularFireAuth,
+    private router: Router,
+    private http: HttpClient,
+    private messageService: MessageService) {
     this.user = firebaseAuth.authState;
 
     this.user.subscribe(
@@ -47,6 +51,7 @@ export class UserService implements CanActivate{
   }
 
   signup(email: string, password: string, name: string) {
+    this.messageService.clearMessages();
     this.firebaseAuth
       .auth
       .createUserWithEmailAndPassword(email, password)
@@ -54,9 +59,11 @@ export class UserService implements CanActivate{
         this.registerUser(email, name);
         console.log("Name in service: ", name);
         this.savedIdToken(value.user);
+        this.messageService.clearMessages();
       })
       .catch(err => {
         console.log('Something went wrong:', err.message);
+        this.messageService.newMessage(err.message);
       });
   }
 
@@ -76,6 +83,7 @@ export class UserService implements CanActivate{
   }
 
   login(email: string, password: string) {
+    this.messageService.clearMessages();
     this.firebaseAuth
       .auth
       .signInWithEmailAndPassword(email, password)
@@ -83,9 +91,11 @@ export class UserService implements CanActivate{
         console.log('Nice, it worked!');
         this.savedIdToken(value.user);
         this.router.navigate(['albums/recent']);
+        this.messageService.clearMessages();
       })
       .catch(err => {
-        console.log('Something went wrong:', err.message); 
+        console.log('Something went wrong:', err.message);
+        this.messageService.newMessage(err.message);
       });
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from './user.service';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent {
   email: String;
   password: String;
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, public messageService: MessageService) {
 
   }
 
@@ -22,5 +23,8 @@ export class AppComponent {
     this.password = "";
   }
 
+  clearMessages() {
+    this.messageService.clearMessages();
+  }
 
 }

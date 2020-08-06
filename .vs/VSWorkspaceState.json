@@ -2,10 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\app\\album-details",
-    "\\src\\app\\login"
+    "\\src\\app"
   ],
-  "SelectedNode": "\\src\\app\\album-details\\album-details.component.ts",
+  "SelectedNode": "\\src\\app\\Comment.ts",
   "PreviewInSolutionExplorer": false
 }
